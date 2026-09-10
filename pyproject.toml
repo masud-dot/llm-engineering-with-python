@@ -45,7 +45,10 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+# "." puts the repository root on sys.path so cross-test imports
+# (from tests.test_api import ...) and evalsetup resolve under the
+# bare `pytest` command, not only under `python -m pytest`.
+pythonpath = ["src", "."]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 markers = [
