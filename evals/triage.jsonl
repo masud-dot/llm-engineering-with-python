@@ -1,0 +1,3 @@
+{"answerable": true, "expected": "", "id": "refund-window", "must_contain": ["fourteen"], "must_not_contain": ["ninety"], "question": "refunds fourteen days", "relevant_ids": ["refunds.md#0"], "source": "production", "tags": ["policy"]}
+{"answerable": true, "expected": "", "id": "escalation", "must_contain": ["engineer"], "must_not_contain": [], "question": "escalation senior engineer", "relevant_ids": ["escalation.pdf#0"], "source": "production", "tags": ["policy"]}
+{"answerable": false, "expected": "", "id": "off-corpus", "must_contain": [], "must_not_contain": [], "question": "quarterly revenue luxembourg", "relevant_ids": [], "source": "production", "tags": ["unanswerable"]}

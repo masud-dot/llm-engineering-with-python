@@ -1,0 +1,82 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  offline:
+    # No secrets are available to this job by design.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: type check
+        run: mypy --strict src/llmapp scripts
+      - name: offline tests
+        run: pytest -q -m "not local_server and not live"
+
+  local_server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: tests against local endpoints
+        run: pytest -q -m "local_server"
+
+  evaluation:
+    # Runs only when quality-affecting files change.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: quality gate
+        run: python scripts/quality_gate.py --baseline main
+      - name: adversarial suite
+        run: python scripts/quality_gate.py --adversarial
+
+  build:
+    needs: [offline, local_server]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: build the image
+        run: docker build -t llmapp:${{ github.sha }} .
+      - name: smoke test the container
+        run: |
+          docker run -d --name smoke -p 8000:8000 \
+            -e LLMAPP_PROVIDER=fake \
+            -e LLMAPP_JWT_SECRET=$SMOKE_SECRET \
+            llmapp:${{ github.sha }}
+          for i in $(seq 1 20); do
+            curl -fsS http://localhost:8000/healthz && break
+            sleep 1
+          done
+          curl -fsS http://localhost:8000/healthz
+        env:
+          SMOKE_SECRET: not-a-real-secret-just-32-bytes-ok
+
+  live:
+    # Nightly only, and the only job that can spend money.
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: live tests
+        env:
+          LLMAPP_PROVIDER: openai
+          LLMAPP_MODEL: ${{ vars.LLMAPP_MODEL }}
+          LLMAPP_API_KEY: ${{ secrets.LLMAPP_API_KEY }}
+          LLMAPP_DAILY_COST_LIMIT_USD: "2.00"
+        run: pytest -q -m "live"

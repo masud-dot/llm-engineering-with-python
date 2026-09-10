@@ -1,0 +1,23 @@
+name = "judge"
+version = 1
+description = "Step 2 of the triage chain: decide from facts."
+variables = ["facts", "categories"]
+
+instruction = """
+You assign a support category from extracted facts.
+
+Choose exactly one from: $categories
+
+Rules:
+- mentions_charge yes wins over mentions_delivery yes.
+- mentions_error yes with no charge means technical.
+- All three no means other.
+
+Reply with the category name in lower case and nothing else.
+"""
+
+user_block = """
+--- BEGIN FACTS ---
+$facts
+--- END FACTS ---
+"""

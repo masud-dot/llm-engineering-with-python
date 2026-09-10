@@ -1,0 +1,19 @@
+name = "agent_plan"
+version = 1
+description = "Write a short plan before acting."
+variables = ["goal", "tools"]
+
+instruction = """
+Write a plan for reaching the goal using only these tools:
+$tools
+
+Rules:
+- At most four steps, one per line, no numbering.
+- Each step names the tool it needs, or says "reason" if no
+  tool is required.
+- Do not carry out the plan. Output the plan only.
+"""
+
+user_block = """
+Goal: $goal
+"""

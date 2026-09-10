@@ -1,0 +1,8 @@
+{
+  "how long do I have to send something back": ["refund-window.md"],
+  "my parcel turned up smashed": ["damaged-goods.md"],
+  "can I get the next-day charge back": ["express-fees.md"],
+  "order 48812": ["order-lookup.md"],
+  "the download button is throwing a 500": ["export-errors.md"],
+  "who handles it if nobody replies": ["escalation.md"]
+}

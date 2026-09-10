@@ -1,0 +1,19 @@
+{
+  "how long do I have to send something back": [
+    "refund window days", "return received warehouse"
+  ],
+  "my parcel turned up smashed": [
+    "items arrive broken replacement", "damaged goods claim"
+  ],
+  "can I get the next-day charge back": [
+    "shipping surcharge refunded", "express service returned"
+  ],
+  "order 48812": ["purchase identifier 48812"],
+  "the download button is throwing a 500": [
+    "export button server error", "clear cache retry ticket"
+  ],
+  "who handles it if nobody replies": [
+    "unresolved tickets passed senior engineer",
+    "escalation two working days"
+  ]
+}

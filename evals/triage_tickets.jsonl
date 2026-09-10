@@ -1,0 +1,6 @@
+{"expected": "billing", "ticket": "I was charged twice for order 48812"}
+{"expected": "technical", "ticket": "The download button throws a 500 error"}
+{"expected": "shipping", "ticket": "My parcel arrived smashed"}
+{"expected": "billing", "ticket": "How do I change my invoice address?"}
+{"expected": "technical", "ticket": "Export keeps failing after the update"}
+{"expected": "shipping", "ticket": "Next-day delivery never turned up"}

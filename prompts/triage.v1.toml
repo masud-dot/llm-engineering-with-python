@@ -1,0 +1,12 @@
+name = "triage"
+version = 1
+description = "First attempt. Kept for comparison."
+variables = ["ticket"]
+
+instruction = """
+Classify this support ticket.
+"""
+
+user_block = """
+$ticket
+"""

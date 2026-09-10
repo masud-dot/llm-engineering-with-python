@@ -1,0 +1,44 @@
+name: llmapp
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      LLMAPP_ENVIRONMENT: local
+      LLMAPP_PROVIDER: openai
+      LLMAPP_MODEL: ${LLMAPP_MODEL}
+      LLMAPP_API_KEY: ${LLMAPP_API_KEY}
+      LLMAPP_JWT_SECRET: ${LLMAPP_JWT_SECRET}
+      LLMAPP_DAILY_COST_LIMIT_USD: "5.00"
+      LLMAPP_DATABASE_URL: postgresql://llmapp:llmapp@db:5432/llmapp
+      LLMAPP_REDIS_URL: redis://cache:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: llmapp
+      POSTGRES_PASSWORD: llmapp
+      POSTGRES_DB: llmapp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U llmapp"]
+      interval: 5s
+      retries: 10
+
+  cache:
+    image: redis:8-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  pgdata:

@@ -1,0 +1,10 @@
+{
+  "refund-window.md": "Refunds are issued within fourteen days of the return being received. The window begins when the warehouse scans the parcel, not when it is posted.",
+  "damaged-goods.md": "Items that arrive broken qualify for a replacement at no cost. Send a photograph with the claim.",
+  "express-fees.md": "Shipping surcharges for next-day service are returned separately from the item price.",
+  "late-claims.md": "Claims raised more than ninety days after purchase are declined without exception.",
+  "order-lookup.md": "Every purchase is assigned an identifier such as 48812. Quote it in all correspondence.",
+  "escalation.md": "Tickets that remain unresolved after two working days are passed to a senior engineer.",
+  "export-errors.md": "If the export button returns a server error, clear the cache and retry once before raising a ticket.",
+  "account-tiers.md": "Business customers receive priority handling. Personal accounts follow the standard queue."
+}
